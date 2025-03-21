@@ -40,7 +40,7 @@ exports.signup = async (req, res) => {
         return res.status(200).json({
             success : true,
             message : "User Created Successfully",
-            data : user
+            data : user,
         });
     }
     catch (err) {
@@ -100,9 +100,9 @@ exports.login = async (req,res) => {
 
             res.cookie("token",token,options).status(200).json({
                 success : true,
-                token,
                 user,
-                message:"User logged in successfully"
+                message:"User logged in successfully",
+                data: { userId: user._id, token },
             });
         }
         else {
