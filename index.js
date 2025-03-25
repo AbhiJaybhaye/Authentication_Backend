@@ -15,8 +15,4 @@ app.use("/api/v1", user);
 
 app.listen(PORT,() => {
     console.log("Server is running at",PORT,"port number.");
-})
-
-// app.get("/", (req,res) => {
-//     res.send("<h1>Auth App</h1>")
-// });
+});
