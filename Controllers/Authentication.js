@@ -49,10 +49,10 @@ exports.requestOTP = async (req, res) => {
 // Step 2: Signup - Verify OTP & Create User
 exports.signup = async (req, res) => {
     try {
-        const { name, email, password, otp } = req.body;
+        const { name, email, password, role, otp } = req.body;
 
         // Verify OTP
-        if( !name || !email || !password || !otp)
+        if( !name || !email || !password || !otp || !role)
         {
             return res.status(403).json({
                 success: false,
@@ -77,7 +77,7 @@ exports.signup = async (req, res) => {
                 message: "Invalid OTP Found",
             });
         }
-        else if(otp!==isValidOTP[0].otp){
+        else if(otp!=isValidOTP[0].otp){
             return res.status(400).json({
                 success: false,
                 message: "Invalid OTP",
@@ -86,7 +86,7 @@ exports.signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create User
-        const user = await User.create({ name, email, password: hashedPassword });
+        const user = await User.create({ name, email, password: hashedPassword, role });
 
         res.status(200).json({
             success: true,
@@ -129,7 +129,8 @@ exports.login = async (req,res) => {
 
         const payload = {
             email : user.email,
-            id : user._id
+            id : user._id,
+            role : user.role
         };
 
 
